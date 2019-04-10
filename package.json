@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "publisher": "node publisher",
+    "subscriber": "node subscriber",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

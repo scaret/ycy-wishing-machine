@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+
+</head>
+<body style="margin: 0;">
+<div id="remote-container" style="width:100%; height: 600px"></div>
+<script src="../../vendor/AgoraRTCSDK-2.6.0.js"></script>
+<script>
+    var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
+    client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
+        client.join(null, "ycy_wishing_machine", null, function(){
+            console.log("Client joined");
+            client.on("stream-added", function(evt){
+                console.log("stream-added", evt);
+                if (evt.stream.getId() === 1111){
+                    console.log("Subscribing stream", evt.stream.getId());
+                    client.subscribe(evt.stream);
+                }
+            });
+            client.on("stream-subscribed", function(evt){
+                console.log("stream subscribed", evt.stream);
+                document.getElementById("remote-container").innerHTML = "";
+                evt.stream.play("remote-container");
+            });
+        });
+    });
+</script>
+</body>
+</html>
