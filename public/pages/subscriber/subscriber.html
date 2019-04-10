@@ -21,7 +21,7 @@
             client.on("stream-subscribed", function(evt){
                 console.log("stream subscribed", evt.stream);
                 document.getElementById("remote-container").innerHTML = "";
-                evt.stream.play("remote-container");
+                evt.stream.play("remote-container", {muted: true, controls: false});
             });
         });
     });
