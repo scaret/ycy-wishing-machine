@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+
+</head>
+<body>
+<div id="local-container" style="width:400px; height: 400px"></div>
+<script src="../../vendor/AgoraRTCSDK-2.6.0.js"></script>
+<script>
+    var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
+    client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
+        client.join(null, "ycy_wishing_machine", 1111, function(){
+            console.log("Client joined");
+            const localStream = AgoraRTC.createStream({video: true, audio: false});
+            localStream.setVideoProfile("720p_2");
+            localStream.init(function(){
+                console.log("LocalStream Inited");
+                client.publish(localStream);
+                client.on("stream-published", function(){
+                    console.log("stream published");
+                    localStream.play("local-container");
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

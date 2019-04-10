@@ -1,0 +1,23 @@
+{
+  "name": "ycy-wishing-machine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "publisher": "node publisher",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scaret/ycy-wishing-machine.git"
+  },
+  "author": "scaret",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scaret/ycy-wishing-machine/issues"
+  },
+  "homepage": "https://github.com/scaret/ycy-wishing-machine#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
