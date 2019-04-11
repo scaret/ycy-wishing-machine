@@ -83,10 +83,12 @@
 function sendTextMessage(){
     var elem = document.getElementById("textMessage")
     var text = elem.value;
-    axios.post("/api/memobird/text", {text: text}).then(function(resp){
-        console.log(resp);
-        elem.value = "";
-    });
+    if (text){
+        axios.post("/api/memobird/text", {text: text}).then(function(resp){
+            console.log(resp);
+            elem.value = "";
+        });
+    }
 };
 </script>
 </body>
