@@ -90,9 +90,13 @@
             closeButton: false,
             title: "你的名字是？",
             callback: function(result){
-                nickname = result;
-                window.localStorage && localStorage.setItem("nickname", nickname);
-                $("#textMessage").attr("placeholder", `${nickname} 说：`);
+                if (result){
+                    nickname = result;
+                    window.localStorage && localStorage.setItem("nickname", nickname);
+                    $("#textMessage").attr("placeholder", `${nickname} 说：`);
+                }else{
+                    updateNickname();
+                }
                 elem.play();
             }
         });
