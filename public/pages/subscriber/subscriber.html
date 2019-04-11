@@ -2,9 +2,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootbox.js/4.3.0/bootbox.min.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.1.js"></script>
     <script src="../../vendor/eruda.js"></script>
@@ -32,6 +34,7 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item">v1.0.1 2019年04月12日 用户昵称（半夜爬起来换纸）</li>
                     <li class="list-group-item">v1.0.0 2019年04月11日 咕咕鸡文字API对接完成！</li>
                     <li  class="list-group-item">v0.9.0 2019年04月10日 视频直播完成！</li>
                 </ul>
@@ -45,6 +48,15 @@
     AgoraRTC.getSupportedCodec().then(console.log);
 </script>
 <script>
+    const elem = document.createElement('video');
+    elem.muted = true;
+    elem.setAttribute("muted", "muted");
+    elem.setAttribute("playsinline", "playsinline");
+    elem.setAttribute("style", "width: 100%");
+    const container = document.getElementById("video-container");
+    container.innerHTML = "";
+    container.appendChild(elem);
+
     var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
     client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
         client.join(null, "ycy_wishing_machine", null, function(){
@@ -60,15 +72,7 @@
                 console.log("stream subscribed", evt.stream);
                 // document.getElementById("remote-container").innerHTML = "";
                 // evt.stream.play("remote-container", {muted: true, controls: true});
-                const elem = document.createElement('video');
                 elem.srcObject = evt.stream.stream;
-                elem.muted = true;
-                elem.setAttribute("muted", "muted");
-                elem.setAttribute("playsinline", "playsinline");
-                elem.setAttribute("style", "width: 100%");
-                const container = document.getElementById("video-container");
-                container.innerHTML = "";
-                container.appendChild(elem);
                 elem.play().then(function(){
                     console.log("elem play success");
                 }).catch(function (err) {
@@ -80,11 +84,51 @@
     });
 </script>
 <script>
+    var nickname = window.localStorage && localStorage.getItem("nickname");
+    function updateNickname(){
+        bootbox.prompt({
+            closeButton: false,
+            title: "你的名字是？",
+            callback: function(result){
+                nickname = result;
+                window.localStorage && localStorage.setItem("nickname", nickname);
+                $("#textMessage").attr("placeholder", `${nickname} 说：`);
+                elem.play();
+            }
+        });
+    }
+    function confirmNickname(){
+        bootbox.confirm({
+            closeButton: false,
+            message: `你好，${nickname}`,
+            buttons:{
+                confirm: {
+                    label: "是我",
+                },
+                cancel: {
+                    label: "不是我"
+                },
+            },
+            callback: function(result){
+                if (!result){
+                    updateNickname();
+                }
+                elem.play();
+            }
+        });
+    }
+    if(!nickname){
+        updateNickname();
+    }else{
+        $("#textMessage").attr("placeholder", `${nickname} 说：`);
+        confirmNickname();
+    }
+
 function sendTextMessage(){
     var elem = document.getElementById("textMessage")
     var text = elem.value;
     if (text){
-        axios.post("/api/memobird/text", {text: text}).then(function(resp){
+        axios.post("/api/memobird/text", {text: `${nickname} 说：\n${text}`}).then(function(resp){
             console.log(resp);
             elem.value = "";
         });
