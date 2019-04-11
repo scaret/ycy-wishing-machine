@@ -5,9 +5,9 @@
 </head>
 <body>
 <div id="local-container" style="width:400px; height: 400px"></div>
-<script src="../../vendor/AgoraRTCSDK-2.6.0.js"></script>
+<script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.0.js"></script>
 <script>
-    var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
+    var client = AgoraRTC.createClient({mode: "rtc", codec: "h264"});
     client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
         client.join(null, "ycy_wishing_machine", 1111, function(){
             console.log("Client joined");
