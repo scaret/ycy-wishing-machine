@@ -11,8 +11,13 @@
     client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
         client.join(null, "ycy_wishing_machine", 1111, function(){
             console.log("Client joined");
-            const localStream = AgoraRTC.createStream({video: true, audio: false});
+            const spec = {video: true, audio: false};
+            const localStream = AgoraRTC.createStream(spec);
             localStream.setVideoProfile("720p_2");
+            spec.video = {
+                width: 640,
+                height: 720,
+            };
             localStream.init(function(){
                 console.log("LocalStream Inited");
                 client.publish(localStream);
