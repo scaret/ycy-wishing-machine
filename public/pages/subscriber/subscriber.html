@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.1.js"></script>
     <script src="../../vendor/eruda.js"></script>
@@ -16,15 +18,28 @@
     </div>
 </div>
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<h5>开发日志</h5>
-<ul class="list-group list-group-flush">
-    <li class="list-group-item">v1.0.0 2019年04月11日 咕咕鸡文字API对接完成！</li>
-    <li  class="list-group-item">v0.9.0 2019年04月10日 视频直播完成！</li>
-</ul>
+
+<div id="accordion" style="position: fixed; bottom: 0; width: 100%;">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    开发日志
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">v1.0.0 2019年04月11日 咕咕鸡文字API对接完成！</li>
+                    <li  class="list-group-item">v0.9.0 2019年04月10日 视频直播完成！</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     eruda.init();
     AgoraRTC.getSupportedCodec().then(console.log);
