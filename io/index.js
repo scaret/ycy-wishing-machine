@@ -61,6 +61,6 @@ io.on("connection", (socket)=>{
 });
 
 var port = isHttps ? 3315 :8315;
-server.listen(8315, function(){
+server.listen(port, "0.0.0.0", function(){
     console.log(`isHTTPS ${isHttps} Port ${port}`);
 });
