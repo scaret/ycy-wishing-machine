@@ -35,5 +35,5 @@ app.post("/api/memobird/text", function(req, res, next){
 });
 
 app.listen(port, ()=>{
-    console.log(`http://localhost:${port}/pages/subscriber/subscriber.html`);
+    console.log(`http://localhost:${port}/`);
 });

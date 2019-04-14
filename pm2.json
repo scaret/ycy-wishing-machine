@@ -1,8 +1,8 @@
 {
   "apps" : [
     {
-      "name"        : "publisher",
-      "script"      : "./publisher/index.js",
+      "name"        : "io",
+      "script"      : "./io/index.js",
       "watch"       : true,
       "env": {
         "NODE_ENV": "development"
