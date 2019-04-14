@@ -11,21 +11,21 @@
     <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.1.js"></script>
     <link href="https://cdn.bootcss.com/font-awesome/5.8.1/css/all.min.css" rel="stylesheet">
-<!--    <script src="https://cdn.bootcss.com/eruda/1.5.4/eruda.min.js"></script>-->
-    <script src="./sendMessage.js"></script>
+    <!--    <script src="https://cdn.bootcss.com/eruda/1.5.4/eruda.min.js"></script>-->
+    <script src="pages/subscriber/sendMessage.js"></script>
 </head>
 <body style="margin: 0;">
-<div style="display: none"><img src="../../img/ycy.jpg"></div>
 <div id="video-container"></div>
 
 <div class="container">
+    <img style="display: none;" src="img/ycy.jpg;">
     <div class="row" style="text-align: center;">
         <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal">
             <h1><i class="fas fa-comment-alt" style="color: #1AAD19;"></i></h1>
         </div>
-<!--        <div class="col">-->
-<!--            <h1><i class="fas fa-camera" style="color: #6495ed"></i></h1>-->
-<!--        </div>-->
+        <!--        <div class="col">-->
+        <!--            <h1><i class="fas fa-camera" style="color: #6495ed"></i></h1>-->
+        <!--        </div>-->
         <div class="col modal-control" data-toggle="modal" data-target="#aboutModal">
             <h1><i class="fas fa-info-circle" style="color: #e0a800"></i></h1>
         </div>
@@ -83,14 +83,14 @@
                 <p><a href="https://github.com/scaret">这是我的Github</a></p>
                 <p>如果有什么建议可以发送电子邮件到 scaret.in@gmail.com</p>
                 <p>如果您喜欢本作品，可以给我买杯咖啡。我看到后会转回3.3元给您，表示感谢~以下是支付宝二维码</p>
-                <p><img src="../../img/alipay.jpg" style="width: 100%;"></p>
+                <p><img src="img/alipay.jpg" style="width: 100%;"></p>
                 <h5>开发日志</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">v1.0.1 2019年04月12日 用户昵称（半夜爬起来换纸）</li>
                     <li class="list-group-item">v1.0.0 2019年04月11日 咕咕鸡文字API对接完成！</li>
                     <li  class="list-group-item">v0.9.0 2019年04月10日 视频直播完成！</li>
                 </ul>
-                <p><img src="../../img/ycy.jpg" style="width: 100%"></p>
+                <p><img src="img/ycy.jpg" style="width: 100%"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
