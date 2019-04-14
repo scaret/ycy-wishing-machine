@@ -7,23 +7,29 @@
 <div id="local-container" style="width:400px; height: 400px"></div>
 <script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.0.js"></script>
 <script>
-    var client = AgoraRTC.createClient({mode: "rtc", codec: "h264"});
-    client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
-        client.join(null, "ycy_wishing_machine", 1111, function(){
-            console.log("Client joined");
-            const spec = {video: true, audio: false};
-            const localStream = AgoraRTC.createStream(spec);
-            localStream.setVideoProfile("720p_2");
-            spec.video = {
-                width: 640,
-                height: 720,
-            };
-            localStream.init(function(){
-                console.log("LocalStream Inited");
-                client.publish(localStream);
-                client.on("stream-published", function(){
-                    console.log("stream published");
-                    localStream.play("local-container");
+    var cname = "ycy_wishing_machine";
+
+    var codecs = ["h264", "vp8"];
+    codecs.forEach(function(codec){
+        var client = AgoraRTC.createClient({mode: "rtc", codec: codec});
+        client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
+            client.join(null, cname + "_" + codec, 8888, function(){
+                console.log("Client joined");
+                const spec = {video: true, audio: false};
+                const localStream = AgoraRTC.createStream(spec);
+                localStream.setVideoProfile("720p_2");
+                spec.video = {
+                    width: 640,
+                    height: 720,
+                };
+                console.log("spec", spec);
+                localStream.init(function(){
+                    console.log("LocalStream Inited");
+                    client.publish(localStream);
+                    client.on("stream-published", function(){
+                        console.log("stream published");
+                        localStream.play("local-container");
+                    });
                 });
             });
         });

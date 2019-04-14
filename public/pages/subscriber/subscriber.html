@@ -57,31 +57,46 @@
     container.innerHTML = "";
     container.appendChild(elem);
 
-    var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
-    client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
-        client.join(null, "ycy_wishing_machine", null, function(){
-            console.log("Client joined");
-            client.on("stream-added", function(evt){
-                console.log("stream-added", evt);
-                if (evt.stream.getId() === 1111){
-                    console.log("Subscribing stream", evt.stream.getId());
-                    client.subscribe(evt.stream);
-                }
-            });
-            client.on("stream-subscribed", function(evt){
-                console.log("stream subscribed", evt.stream);
-                // document.getElementById("remote-container").innerHTML = "";
-                // evt.stream.play("remote-container", {muted: true, controls: true});
-                elem.srcObject = evt.stream.stream;
-                elem.play().then(function(){
-                    console.log("elem play success");
-                }).catch(function (err) {
-                    console.error("elem play error", err.error, err.message, err.info, err);
-                    elem.setAttribute("controls", "");
+    var cname = "ycy_wishing_machine";
+    var codec = "vp8";
+    AgoraRTC.getSupportedCodec().then(function(codecs){
+        console.log("codecs", codecs);
+        if (codecs.video.indexOf("VP8" !== -1)){
+            codec = "vp8";
+        }else{
+            codec = "h264";
+        }
+        main();
+    });
+
+    function main(){
+        var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
+        client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
+            client.join(null, cname + "_" + codec, null, function(){
+                console.log("Client joined");
+                client.on("stream-added", function(evt){
+                    console.log("stream-added", evt);
+                    if (evt.stream.getId() === 8888){
+                        console.log("Subscribing stream", evt.stream.getId());
+                        client.subscribe(evt.stream);
+                    }
+                });
+                client.on("stream-subscribed", function(evt){
+                    console.log("stream subscribed", evt.stream);
+                    // document.getElementById("remote-container").innerHTML = "";
+                    // evt.stream.play("remote-container", {muted: true, controls: true});
+                    elem.srcObject = evt.stream.stream;
+                    elem.play().then(function(){
+                        console.log("elem play success");
+                    }).catch(function (err) {
+                        console.error("elem play error", err.error, err.message, err.info, err);
+                        elem.setAttribute("controls", "");
+                    });
                 });
             });
         });
-    });
+    }
+
 </script>
 <script>
     var nickname = window.localStorage && localStorage.getItem("nickname");
