@@ -16,14 +16,16 @@ app.get("/", (req, res)=>{
 
 app.post("/api/memobird/text", function(req, res, next){
     var text = req.body.text;
-    console.log("Received text", text);
+    var nickname = req.body.nickname;
+    var message = `${nickname} 说：\n${text}`;
+    console.log("Received text", nickname, text);
     new Memobird("1a495e9b9adc6b51", function(err){
         if (err){
             console.error(err);
             res.status(500).end(err);
         }else{
             var memobird = this;
-            memobird.printText(text, function(err, data){
+            memobird.printText(message, function(err, data){
                 if (err){
                     console.error(err);
                     res.status(500).end(err);
