@@ -120,6 +120,10 @@
             codec = "h264";
         }
         main();
+    }).catch(function(e){
+        console.error(e);
+        codec = "h264";
+        main();
     });
 
     function main(){
