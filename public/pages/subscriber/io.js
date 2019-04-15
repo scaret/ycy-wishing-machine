@@ -25,7 +25,7 @@ function ConnectIO(){
             var elem = $('<li></li>');
             elem.text(user.nickname);
             elem.attr("id", "socket_" + user.socketId);
-            $("#onlineUsers").append(elem);
+            $("#onlineUsers").empty().append(elem);
         });
     });
     socket.on("userJoined", function(obj){
