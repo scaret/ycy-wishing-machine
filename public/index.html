@@ -15,15 +15,36 @@
     <!--    <script src="https://cdn.bootcss.com/eruda/1.5.4/eruda.min.js"></script>-->
     <script src="pages/subscriber/sendMessage.js"></script>
     <script src="pages/subscriber/io.js"></script>
+    <style>
+        @media all and (min-width: 600px) {
+            body{
+                margin: auto;
+            }
+            .container{
+                max-width: 600px;
+            }
+        }
+        @media all and (max-width: 600px){
+            body{
+                margin: 0;
+            }
+            .container{
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    </style>
 </head>
-<body style="margin: 0;">
-<div id="video-container"></div>
-
+<body>
+<div id="video-container" class="container"></div>
 <div class="container">
     <div class="row" style="text-align: center;">
-        <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal">
+        <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal1">
             <h1><i class="fas fa-comment-alt" style="color: #1AAD19;"></i></h1>
         </div>
+<!--        <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal2">-->
+<!--            <h1><i class="fas fa-dove" style="color: #ffdf16;"></i></h1>-->
+<!--        </div>-->
         <!--        <div class="col">-->
         <!--            <h1><i class="fas fa-camera" style="color: #6495ed"></i></h1>-->
         <!--        </div>-->
@@ -32,12 +53,13 @@
         </div>
     </div>
 </div>
-<br/>
-<h5>在线用户: <span id="userCount">0</span></h5>
-<ul id="onlineUsers"></ul>
+<div class="container">
+    <h5>在线用户: <span id="userCount">0</span></h5>
+    <ul id="onlineUsers"></ul>
+</div>
 
-<!-- 文字许愿 -->
-<div id="sendTextModal" class="modal fade" tabindex="-1" role="dialog">
+<!-- 文字许愿1 -->
+<div id="sendTextModal1" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -48,11 +70,33 @@
             </div>
             <div class="modal-body">
                 <p>向锦鲤超越许个愿吧~(建议三行左右哦)</p>
-                <textarea class="form-control" id="textMessage" placeholder="我希望————" rows="3"></textarea>
+                <textarea class="form-control" id="textMessage1" placeholder="我希望————" rows="3"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">先不要</button>
-                <button type="button" class="btn btn-primary" onclick="sendTextMessage()">发射~</button>
+                <button type="button" class="btn btn-primary" onclick="sendTextMessage(1)">发射~</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 文字许愿2 -->
+<div id="sendTextModal2" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">黄鸭许愿</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>向小黄鸭许个愿吧~(建议三行左右哦)</p>
+                <textarea class="form-control" id="textMessage2" placeholder="我希望————" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">先不要</button>
+                <button type="button" class="btn btn-primary" onclick="sendTextMessage(2)">发射~</button>
             </div>
         </div>
     </div>
