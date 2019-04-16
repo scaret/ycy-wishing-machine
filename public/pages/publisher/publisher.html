@@ -19,11 +19,12 @@
                 const localStream = AgoraRTC.createStream(spec);
                 localStream.setVideoProfile("720p_2");
                 spec.video = {
-                    width: 640,
+                    width: 1280,
                     height: 720,
                 };
                 console.log("spec", spec);
                 localStream.init(function(){
+                    window.vt = localStream.stream.getVideoTracks()[0]
                     console.log("LocalStream Inited");
                     client.publish(localStream);
                     client.on("stream-published", function(){
