@@ -15,7 +15,7 @@
         client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
             client.join(null, cname + "_" + codec, 8888, function(){
                 console.log("Client joined");
-                const spec = {video: true, audio: false};
+                const spec = {video: true, audio: true};
                 const localStream = AgoraRTC.createStream(spec);
                 localStream.setVideoProfile("720p_2");
                 spec.video = {
@@ -30,6 +30,22 @@
                     client.on("stream-published", function(){
                         console.log("stream published");
                         localStream.play("local-container");
+                        localStream.audioMixing.inEarMonitoring = "NONE";
+                        if (codec === "vp8"){
+                            localStream.startAudioMixing({
+                                filePath: '/music/kll.mp3',
+                                replace: true,
+                                playTime: 0,
+                                loop: true
+                            });
+                        }else{
+                            localStream.startAudioMixing({
+                                filePath: '/music/pickme.mp4',
+                                replace: true,
+                                playTime: 0,
+                                loop: true
+                            });
+                        }
                     });
                 });
             });
