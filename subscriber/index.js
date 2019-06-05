@@ -13,7 +13,7 @@ const port = 8314;
 var ipCount = {};
 setInterval(()=>{
     ipCount = {};
-}, 3600000);
+}, 300000);
 
 app.post("/api/memobird/text", function(req, res, next){
     var text = req.body.text;
@@ -26,11 +26,11 @@ app.post("/api/memobird/text", function(req, res, next){
         ipCount[ip] = 0;
     }
     ipCount[ip]++;
-    if (ipCount[ip] > 20){
+    if (ipCount[ip] > 10){
+        console.error(`DDOS User ${ip}`);
         return res.end("您太频繁了");
     }
     var deviceList= ["1a495e9b9adc6b51", "1a495e9b9adc6b51", "85fb680dafb4f990"];
-    console.log(`IP`, req.headers['X-Forwarded-For'], "Message", message);
     new Memobird(deviceList[deviceId] || deviceList[0], function(err){
         if (err){
             console.error(err);
