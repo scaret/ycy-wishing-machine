@@ -20,7 +20,7 @@ app.post("/api/memobird/text", function(req, res, next){
     var nickname = req.body.nickname;
     var deviceId = req.body.deviceId;
     var message = `${text}\n\n        ---- by ${nickname}`;
-    var ip = req["x-forwarded-for"];
+    var ip = req.headers["x-forwarded-for"];
     console.log("Received text", ip, nickname, text, deviceId);
     if (!ipCount[ip]){
         ipCount[ip] = 0;
