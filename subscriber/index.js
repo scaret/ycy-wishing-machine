@@ -10,14 +10,27 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 const port = 8314;
 
+var ipCount = {};
+setInterval(()=>{
+    ipCount = {};
+}, 3600000);
 
 app.post("/api/memobird/text", function(req, res, next){
     var text = req.body.text;
     var nickname = req.body.nickname;
     var deviceId = req.body.deviceId;
     var message = `${text}\n\n        ---- by ${nickname}`;
-    console.log("Received text", nickname, text, deviceId);
+    var ip = req["x-forwarded-for"];
+    console.log("Received text", ip, nickname, text, deviceId);
+    if (!ipCount[ip]){
+        ipCount[ip] = 0;
+    }
+    ipCount[ip]++;
+    if (ipCount[ip] > 20){
+        return res.end("您太频繁了");
+    }
     var deviceList= ["1a495e9b9adc6b51", "1a495e9b9adc6b51", "85fb680dafb4f990"];
+    console.log(`IP`, req.headers['X-Forwarded-For'], "Message", message);
     new Memobird(deviceList[deviceId] || deviceList[0], function(err){
         if (err){
             console.error(err);
@@ -28,7 +41,7 @@ app.post("/api/memobird/text", function(req, res, next){
             memobird.printText(message, function(err, data){
                 if (err){
                     console.error(err);
-                    res.status(500).end(err);
+                    res.status(500).json(err);
                 }else{
                     res.json(data);
                 }
