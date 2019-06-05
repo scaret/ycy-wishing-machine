@@ -21,7 +21,7 @@ app.post("/api/memobird/text", function(req, res, next){
     new Memobird(deviceList[deviceId] || deviceList[0], function(err){
         if (err){
             console.error(err);
-            res.status(500).end(err);
+            res.status(500).end(err.message);
         }else{
             console.log("Success", message);
             var memobird = this;
