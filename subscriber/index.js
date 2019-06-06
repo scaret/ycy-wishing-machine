@@ -39,7 +39,7 @@ app.post("/api/memobird/text", function(req, res, next){
         return  res.end("您太频繁了");
     }
     var match = text.match(/\n/g);
-    if (match.length > 5){
+    if (match && match.length > 5){
         console.error(`too long ${text}`);
         return  res.end("您太频繁了");
     }
