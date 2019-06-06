@@ -19,16 +19,29 @@ app.post("/api/memobird/text", function(req, res, next){
     var text = req.body.text;
     var nickname = req.body.nickname;
     var deviceId = req.body.deviceId;
-    var message = `${text}\n\n        ---- by ${nickname}`;
+    var message = `${text}\n        ---- by ${nickname}`;
     var ip = req.headers["x-forwarded-for"];
     console.log("Received text", ip, nickname, text, deviceId);
     if (!ipCount[ip]){
         ipCount[ip] = 0;
     }
     ipCount[ip]++;
-    if (ipCount[ip] > 10){
+    if (ipCount[ip] > 3){
         console.error(`DDOS User ${ip}`);
         return res.end("您太频繁了");
+    }
+    if (text.match(/\{/)){
+        console.error(`Code User ${ip}`);
+        return res.end("您太频繁了");
+    }
+    if (text.length > 100){
+        console.error(`too long ${text}`);
+        return  res.end("您太频繁了");
+    }
+    var match = text.match(/\n/g);
+    if (match.length > 5){
+        console.error(`too long ${text}`);
+        return  res.end("您太频繁了");
     }
     var deviceList= ["1a495e9b9adc6b51", "1a495e9b9adc6b51", "85fb680dafb4f990"];
     new Memobird(deviceList[deviceId] || deviceList[0], function(err){

@@ -42,6 +42,9 @@
         <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal1">
             <h1><i class="fas fa-comment-alt" style="color: #1AAD19;"></i></h1>
         </div>
+        <div class="col">
+            <h1 id="speaker"><i class="fas fa-volume-up"></i></h1>
+        </div>
 <!--        <div class="col modal-control" data-toggle="modal" data-target="#sendTextModal2">-->
 <!--            <h1><i class="fas fa-dove" style="color: #ffdf16;"></i></h1>-->
 <!--        </div>-->
@@ -154,6 +157,7 @@
     const container = document.getElementById("video-container");
     container.innerHTML = "";
     container.appendChild(elem);
+    var speakingStarted = false;
 
     var cname = "ycy_wishing_machine";
     var codec = "vp8";
@@ -172,7 +176,7 @@
     });
 
     function main(){
-        var client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
+        window.client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"});
         client.init("b7db71a6d9724c3f940cbcddcbd2b09d", function () {
             client.join(null, cname + "_" + codec, null, function(){
                 console.log("Client joined");
@@ -185,9 +189,13 @@
                 });
                 client.on("stream-subscribed", function(evt){
                     console.log("stream subscribed", evt.stream);
+                    window.remoteStream = evt.stream;
                     // document.getElementById("remote-container").innerHTML = "";
                     // evt.stream.play("remote-container", {muted: true, controls: true});
                     elem.srcObject = evt.stream.stream;
+                    if (speakingStarted){
+                        remoteStream.muteAudio();
+                    }
                     elem.play().then(function(){
                         console.log("elem play success");
                     }).catch(function (err) {
@@ -248,6 +256,21 @@
     $(".modal-control").on("click", function(){
         console.log("modal-control")
     })
+
+
+    var startSpeaking = function(){
+        if (speakingStarted){
+            return;
+        }
+        speakingStarted = true;
+
+        var localStream = AgoraRTC.createStream({video: false,audio: true});
+        localStream.init(function(){
+            remoteStream.muteAudio();
+            client.publish(localStream);
+        });
+    };
+    $("#speaker").on("click", startSpeaking);
 
 </script>
 </body>

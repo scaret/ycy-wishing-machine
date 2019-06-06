@@ -6,8 +6,10 @@
 <body>
 <select id="cameras"></select>
 <select id="microphones"></select>
+<select id="speakers"></select>
 <button onclick="main()">Join</button>
 <div id="local-container" style="width:400px; height: 400px"></div>
+<div id="remote-container"></div>
 <script src="https://cdn.agora.io/sdk/web/AgoraRTCSDK-2.6.0.js"></script>
 <script>
     var cname = "ycy_wishing_machine";
@@ -20,6 +22,8 @@
                 document.getElementById("microphones").innerHTML += html;
             }else if (device.kind === "videoinput"){
                 document.getElementById("cameras").innerHTML += html;
+            }else if (device.kind === "audiooutput"){
+                document.getElementById("speakers").innerHTML += html;
             }
         });
     };
@@ -37,10 +41,10 @@
                     spec.cameraId = document.getElementById("cameras").value;
                     spec.microphoneId = document.getElementById("microphones").value;
                     const localStream = AgoraRTC.createStream(spec);
-                    localStream.setVideoProfile("720p_2");
+                    localStream.setVideoProfile("1080p_1");
                     spec.video = {
-                        width: 720,
-                        height: 720,
+                        width: {ideal: 1080, min: 720},
+                        height: {ideal: 1080, min: 720},
                     };
                     console.log("spec", spec);
                     localStream.init(function(){
@@ -69,6 +73,21 @@
                         });
                     });
                 });
+            });
+            client.on("stream-added", function(evt){
+                client.subscribe(evt.stream, {video: false, audio: true});
+            });
+            client.on("stream-subscribed", function(evt){
+                evt.stream.play("remote-container");
+                var speaker = document.getElementById("speakers").value;
+                if (speaker){
+                    evt.stream.setAudioOutput(speaker);
+                }
+            });
+            client.on("peer-leave", function(evt){
+                if (evt.stream){
+                    evt.stream.stop();
+                }
             });
         });
     }
