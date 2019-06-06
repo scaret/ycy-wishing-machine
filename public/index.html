@@ -264,11 +264,15 @@
         }
         speakingStarted = true;
 
-        var localStream = AgoraRTC.createStream({video: false,audio: true});
-        localStream.init(function(){
-            remoteStream.muteAudio();
-            client.publish(localStream);
-        });
+        if (window.navigator && window.navigator.mediaDevices && window.navigator.mediaDevices.getUserMedia){
+            var localStream = AgoraRTC.createStream({video: false,audio: true});
+            localStream.init(function(){
+                remoteStream.muteAudio();
+                client.publish(localStream);
+            });
+        }else{
+            alert("使用系统浏览器，点击小喇叭，可以和小爱同学对话哦");
+        }
     };
     $("#speaker").on("click", startSpeaking);
 
